@@ -1,0 +1,30 @@
+.cell-container {
+  border: 1px solid #acf4e6;
+  cursor: pointer;
+
+  //   Value
+  background-color: white;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+
+  &:hover {
+    background-color: #acf4e6;
+  }
+}
+
+.x-value {
+  background-image: url('../../../public/assets/x.png'); /* The image used */
+}
+
+.o-value {
+  background-image: url('../../../public/assets/o.png'); /* The image used */
+}
+
+.just-moved-cell {
+  background-color: rgba(38, 166, 154, 0.5);
+}
+
+.row-container {
+  display: flex;
+}

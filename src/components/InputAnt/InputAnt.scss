@@ -1,0 +1,15 @@
+.input-ant-customized-container {
+  .input-ant-customized {
+    border-radius: 10px;
+    height: 40px;
+    color: #2c3e50;
+
+    &:hover {
+      border-color: #26a69a !important;
+    }
+
+    &:focus {
+      border-color: #26a69a !important;
+    }
+  }
+}

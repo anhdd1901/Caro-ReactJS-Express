@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RoomsPage from './pages/RoomsPage/RoomsPage';
+import SignUp from './pages/SignUp/SignUp';
+import GamePage from './pages/GamePage/GamePage';
 
-function App() {
+import React, { memo } from 'react';
+import 'antd/dist/antd.css';
+import { Route, Routes } from 'react-router-dom';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container-app">
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/rooms" element={<RoomsPage />} />
+        <Route path="/rooms" element={<RoomsPage />} />
+        <Route path="/rooms/:id" element={<GamePage />} />
+      </Routes>
     </div>
   );
-}
+};
 
-export default App;
+export default memo(App);
