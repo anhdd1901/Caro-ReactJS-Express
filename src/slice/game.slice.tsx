@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export const gameSlice = createSlice({
-  name: "gameSlice",
+  name: 'gameSlice',
   initialState: {
     isLoading: false,
   },

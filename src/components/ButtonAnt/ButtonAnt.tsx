@@ -1,10 +1,10 @@
 import './ButtonAnt.scss';
 
-import React, { memo } from 'react';
+import React, { memo, ReactNode } from 'react';
 import { Button } from 'antd';
 
 interface PT {
-  title: string;
+  title: ReactNode;
   style?: string;
   onClick: () => void;
   disabled?: boolean;
@@ -12,11 +12,8 @@ interface PT {
 
 const ButtonAnt: React.FC<PT> = ({ title, style, onClick, disabled }) => {
   return (
-    <div className="button-ant-customized-container">
-      <Button
-        className={`button-ant-customized ${style} ${disabled ? 'button-ant-customized-disabled' : ''}`}
-        onClick={onClick}
-      >
+    <div className={`button-ant-customized-container ${style}`}>
+      <Button className={`button-ant-customized ${disabled ? 'button-ant-customized-disabled' : ''}`} onClick={onClick}>
         {title}
       </Button>
     </div>

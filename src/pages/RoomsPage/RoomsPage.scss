@@ -1,0 +1,31 @@
+.rooms-page-modal {
+  width: 770px !important;
+
+  .login-modal-form {
+    height: auto !important;
+  }
+
+  .chose-mode-button {
+    .button-ant-customized {
+      height: 220px !important;
+    }
+  }
+
+  .login-modal-form {
+    margin-top: 10px;
+  }
+
+  .button-with-image {
+    .button-with-image-img {
+      margin-bottom: 20px;
+      img {
+        width: 120px;
+        height: 120px;
+      }
+    }
+
+    .button-with-image-title {
+      font-size: 20px;
+    }
+  }
+}

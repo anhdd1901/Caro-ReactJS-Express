@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonAnt from '../../components/ButtonAnt/ButtonAnt';
 
@@ -9,11 +9,11 @@ const Footer = () => {
       <ButtonAnt
         title="quit"
         onClick={() => {
-          navigate('/rooms');
+          navigate('/room');
         }}
       />
     </div>
   );
 };
 
-export default Footer;
+export default memo(Footer);

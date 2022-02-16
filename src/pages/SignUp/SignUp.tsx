@@ -6,21 +6,7 @@ import Modal from 'antd/lib/modal/Modal';
 import InputAnt from '../../components/InputAnt/InputAnt';
 import ButtonAnt from '../../components/ButtonAnt/ButtonAnt';
 import { useNavigate } from 'react-router-dom';
-
-const Header = () => {
-  return (
-    <div className="login-modal-header">
-      <div className="login-modal-title">
-        <div>sign-up</div>
-      </div>
-
-      <div className="login-modal-title">
-        <div>.caro</div>
-        <div className="login-modal-title-secondary-text">.games</div>
-      </div>
-    </div>
-  );
-};
+import Header from '../../components/Header/Header';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -32,7 +18,7 @@ const SignUp = () => {
   return (
     <div className="sign-up-container background-container">
       <Modal footer={null} visible={true} closable={false} className="login-modal">
-        <Header />
+        <Header title="sign-up" />
 
         <div className="login-modal-form">
           <InputAnt placeholder="username" />
