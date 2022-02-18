@@ -4,12 +4,16 @@
     height: 40px;
     border-radius: 10px;
     color: white;
-    background-color: #26a69a;
+    background-color: rgb(38, 166, 154);
     border: none;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background-color: rgba(44, 62, 80, 0.75);
+      color: white;
+    }
+
+    &:focus {
+      background-color: rgb(38, 166, 154);
       color: white;
     }
 
@@ -21,15 +25,16 @@
 
   .button-ant-customized-disabled {
     cursor: not-allowed;
+    background-color: rgba(38, 166, 154, 0.5);
 
     &:hover,
     &:focus {
-      background-color: #26a69a;
+      background-color: rgba(38, 166, 154, 0.5);
       color: white;
     }
 
     &:active {
-      background-color: #26a69a;
+      background-color: rgba(38, 166, 154, 0.5);
       color: white;
     }
   }

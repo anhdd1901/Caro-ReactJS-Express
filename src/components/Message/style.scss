@@ -1,0 +1,33 @@
+.message-container {
+  display: flex;
+  flex-direction: column;
+
+  .message-container-title {
+    text-align: start;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 4px;
+  }
+  .message-container-text {
+    text-align: start;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4b4b4b;
+  }
+}
+
+.message-modal {
+  .ant-message-notice-content {
+    padding: 16px 20px;
+    min-width: auto;
+
+    background-image: url('../../../public/assets/mess/backMess.png'); /* The image used */
+    background-size: cover; /* Resize the background image to cover the entire container */
+
+    .ant-message-custom-content {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

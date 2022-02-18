@@ -5,30 +5,9 @@ import Modal from 'antd/lib/modal/Modal';
 import Footer from './Footer';
 import Table from '../../components/Table/Table';
 import Header from '../../components/Header/Header';
+import { KINDS_OF_WIN_CHECKER } from '../../config';
 
 const tableSize = Number(process.env.REACT_APP_TABLE_SIZE);
-const KINDS_OF_WIN_CHECKER = [
-  // Row
-  [
-    [1, 0],
-    [-1, 0],
-  ],
-  // Col
-  [
-    [0, 1],
-    [0, -1],
-  ],
-  // Dash
-  [
-    [1, 1],
-    [-1, -1],
-  ],
-  // Slash
-  [
-    [1, -1],
-    [-1, 1],
-  ],
-];
 
 const GamePage = () => {
   const size = (window.innerHeight - 48 - 48 - 40 - 50 - 20) / tableSize;

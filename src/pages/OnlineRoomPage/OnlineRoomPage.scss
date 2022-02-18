@@ -1,0 +1,39 @@
+.online-rooms-page-modal {
+  width: 70vw !important;
+  .online-rooms-page-modal-tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .ant-tabs-tab {
+      color: rgb(38, 166, 154) !important;
+      font-size: 16px !important;
+    }
+
+    .ant-tabs-ink-bar {
+      background-color: rgb(44, 62, 80) !important;
+    }
+
+    .ant-tabs-tab-active {
+      .ant-tabs-tab-btn {
+        color: rgb(44, 62, 80) !important;
+      }
+    }
+
+    .online-rooms-page-modal-tabs-back-button {
+      cursor: pointer;
+      color: rgb(38, 166, 154);
+      font-size: 25px;
+
+      &:hover {
+        color: rgb(44, 62, 80);
+      }
+    }
+  }
+
+  .login-modal-form-buttons {
+    // justify-content: flex-start !important;
+    flex-wrap: wrap;
+    margin: -10px;
+  }
+}

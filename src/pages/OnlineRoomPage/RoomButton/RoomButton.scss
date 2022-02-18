@@ -1,0 +1,107 @@
+.online-rooms-page-modal {
+  .button-ant-customized {
+    background-color: white;
+    color: rgb(44, 62, 80);
+    border: 1px solid rgba(44, 62, 80, 0.75);
+
+    &:hover {
+      background-color: rgba(44, 62, 80, 0.75);
+      color: white;
+      border: none;
+      .medal-rank-img {
+        color: rgb(44, 62, 80);
+      }
+    }
+
+    &:focus {
+      background-color: white;
+      color: rgb(44, 62, 80);
+      .medal-rank-img {
+        color: rgb(44, 62, 80);
+      }
+    }
+
+    &:active {
+      background-color: rgba(44, 62, 80);
+      color: white;
+      border: none;
+      .medal-rank-img {
+        color: rgb(44, 62, 80);
+      }
+    }
+  }
+
+  .button-with-image-img {
+    margin-bottom: 5px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .button-with-image-img-user-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 80px;
+
+      .button-with-image-img-avatar {
+        position: relative;
+        img {
+          background-color: white;
+          border: 1px solid rgba(38, 166, 154, 0.5) !important;
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .medal-rank {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          .medal-rank-img {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            background-color: white;
+            border: 1px solid rgba(38, 166, 154, 0.5) !important;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+
+            .medal-rank-img-detail {
+              margin-bottom: 3px;
+              font-size: 16px;
+              line-height: 16px;
+              img {
+                border: none !important;
+                width: 12px;
+                height: 12px;
+              }
+            }
+          }
+        }
+        .medal-rank-1 {
+          left: -5px;
+        }
+      }
+
+      .button-with-image-img-username {
+        margin-top: 5px;
+        height: 22px;
+      }
+
+      .button-with-image-img-current-won {
+        font-size: 20px;
+        height: 32px;
+      }
+    }
+
+    .button-with-image-img-vs {
+      margin-bottom: 40px;
+    }
+  }
+
+  .online-room-buttom {
+    margin: 10px;
+  }
+}

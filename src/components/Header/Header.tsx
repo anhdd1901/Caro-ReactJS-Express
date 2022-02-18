@@ -20,7 +20,7 @@ const Header: React.FC<PT> = ({ title, tail }) => {
         ) : (
           <>
             <div>.caro</div>
-            <div className="login-modal-title-secondary-text">.games</div>
+            <div className="login-modal-title-secondary-text">.game</div>
           </>
         )}
       </div>
