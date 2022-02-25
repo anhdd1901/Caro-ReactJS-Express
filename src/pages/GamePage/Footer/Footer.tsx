@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ButtonAnt from '../../components/ButtonAnt/ButtonAnt';
+import ButtonAnt from '../../../components/ButtonAnt/ButtonAnt';
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Footer = () => {
       <ButtonAnt
         title="quit"
         onClick={() => {
-          navigate('/room');
+          navigate('/mode');
         }}
       />
     </div>

@@ -12,13 +12,14 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((request: any) => {
-  let token = `Bearer ${
+  const token = `Bearer ${
     localStorage.getItem('token')
       ? localStorage.getItem('token')
       : sessionStorage.getItem('token')
       ? sessionStorage.getItem('token')
       : ''
   }`;
+
   request.headers['Authorization'] = token;
   return request;
 });

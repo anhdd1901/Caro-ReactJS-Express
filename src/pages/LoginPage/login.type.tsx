@@ -1,16 +1,19 @@
 export interface loginStateType {
-  isLoading: boolean;
+  username: string;
+  userID: string;
 }
 
 export interface loginResType {
   errorMess?: string;
   token?: string;
+  username?: string;
+  userID?: string;
 }
 
 export interface userType {
   id: string;
   username: string;
-  displayName:string;
+  displayName: string;
   avatar: string;
   rank: number;
   gamePlayed: number;

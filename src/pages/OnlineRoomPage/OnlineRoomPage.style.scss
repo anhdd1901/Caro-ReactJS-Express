@@ -1,5 +1,5 @@
 .online-rooms-page-modal {
-  width: 70vw !important;
+  // max-width: 90vw !important;
   .online-rooms-page-modal-tabs {
     display: flex;
     justify-content: space-between;
@@ -20,20 +20,29 @@
       }
     }
 
-    .online-rooms-page-modal-tabs-back-button {
-      cursor: pointer;
-      color: rgb(38, 166, 154);
-      font-size: 25px;
-
-      &:hover {
-        color: rgb(44, 62, 80);
-      }
+    .online-rooms-page-modal-tabs-back-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 60px;
     }
   }
 
   .login-modal-form-buttons {
-    // justify-content: flex-start !important;
+    justify-content: flex-start !important;
     flex-wrap: wrap;
     margin: -10px;
+
+    .annouce-empty {
+      height: 100px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+
+      .annouce-empty-special {
+        color: rgb(38, 166, 154);
+      }
+    }
   }
 }

@@ -1,17 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loginAPI } from './login.services';
+import { authAPI, loginAPI } from './login.services';
 import { loginResType, loginStateType } from './login.type';
 
 const initialState: loginStateType = {
-  isLoading: false,
+  username: '',
+  userID: '',
 };
 
 export const loginSlice = createSlice({
   name: 'loginSlice',
   initialState: initialState,
   reducers: {
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+    setUsername: (state, action: PayloadAction<string>) => {
+      state.username = action.payload;
+    },
+    setUserID: (state, action: PayloadAction<string>) => {
+      state.userID = action.payload;
     },
   },
 });
@@ -29,3 +33,12 @@ export const login =
       onError && onError();
     }
   };
+
+export const auth = (onSuccess?: (data: loginResType) => void, onError?: () => void) => async () => {
+  try {
+    let res = await authAPI();
+    onSuccess && onSuccess(res.data);
+  } catch {
+    onError && onError();
+  }
+};

@@ -1,0 +1,16 @@
+.button-with-image-container {
+  cursor: pointer;
+  color: rgb(38, 166, 154);
+  font-size: 25px;
+
+  &:hover {
+    color: rgb(44, 62, 80);
+  }
+}
+
+.button-with-image-container-disabled {
+  cursor: not-allowed;
+  &:hover {
+    color: rgb(38, 166, 154);
+  }
+}

@@ -2,7 +2,7 @@ import './LoginPage.style.scss';
 import View from './LoginPage.view';
 import { useAppDispatch } from '../../hook';
 import { ErrorMessage, SuccessMessage } from '../../components/Message';
-import { login } from './login.slice';
+import { login, loginAction } from './login.slice';
 
 import React, { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -47,8 +47,10 @@ const LoginPage = () => {
     } else {
       setLoadingHandleLogin(false);
       SuccessMessage('Welcome to .Caro.Game!');
+      dispatch(loginAction.setUsername(data.username ? data.username : ''));
+      dispatch(loginAction.setUserID(data.userID ? data.userID : ''));
       sessionStorage.setItem('token', data.token);
-      navigate('/room');
+      navigate('/mode');
     }
   };
 

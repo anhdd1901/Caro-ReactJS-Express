@@ -1,0 +1,37 @@
+.online-game-container-modal {
+  .receive-challenge-modal-main-challenge {
+    display: flex;
+    align-items: center;
+
+    .display-name {
+      margin: 0px 10px;
+    }
+
+    .button-with-image-img-user-info {
+      width: 60px !important;
+      height: 60px !important;
+      .button-with-image-img-avatar {
+        img {
+          width: 60px !important;
+          height: 60px !important;
+        }
+
+        .medal-rank-img {
+          width: 25px;
+          height: 25px;
+
+          .medal-rank-img-detail {
+            margin-bottom: 3px;
+            font-size: 12px;
+            line-height: 12px;
+            img {
+              border: none !important;
+              width: 10px !important;
+              height: 10px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

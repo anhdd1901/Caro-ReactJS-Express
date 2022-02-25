@@ -2,10 +2,10 @@ import './GamePage.scss';
 
 import React, { memo, useState } from 'react';
 import Modal from 'antd/lib/modal/Modal';
-import Footer from './Footer';
 import Table from '../../components/Table/Table';
 import Header from '../../components/Header/Header';
 import { KINDS_OF_WIN_CHECKER } from '../../config';
+import Footer from './Footer/Footer';
 
 const tableSize = Number(process.env.REACT_APP_TABLE_SIZE);
 
@@ -72,7 +72,7 @@ const GamePage = () => {
   return (
     <div className="background-container game-container">
       <Modal footer={null} visible={true} closable={false} className="login-modal game-container-modal">
-        <Header title="you" tail="your opp" />
+        <Header title="player one" tail="player two" mid={<div>vs</div>} />
 
         <Table
           size={size}
