@@ -12,6 +12,7 @@ import { RootState } from '../../store';
 import { loginStateType, userType } from '../LoginPage/login.type';
 import { gameStateType } from '../GamePage/game.type';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { gameAction } from '../GamePage/game.slice';
 
 const OnlineRoomPage = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +50,7 @@ const OnlineRoomPage = () => {
             id: result.user.id,
             socketRoomID: result.socketRoomID,
             playerOne: result.user,
+            table: [],
           });
       });
 
@@ -75,7 +77,9 @@ const OnlineRoomPage = () => {
       });
 
       // Receive accept challenge
-      socket.on('receive-accept-challenge', (roomSocketID: any) => {
+      socket.on('receive-accept-challenge', (roomSocketID: any, roomID: any) => {
+        dispatch(gameAction.setPlayingRoomID(roomID));
+        dispatch(gameAction.setYouMoveFirst(false));
         navigate(`/mode/online-game/${roomSocketID}`);
       });
 

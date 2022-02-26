@@ -7,6 +7,7 @@ export interface onlineRoomStateType {
 export interface onlineRoomType {
   id: string;
   socketRoomID: string;
+  table: string[][];
   playerOne: userType;
   playerTwo?: userType;
 }

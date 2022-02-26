@@ -34,4 +34,15 @@
       }
     }
   }
+
+  .score-board {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100px;
+
+    .score {
+      font-size: 30px !important;
+    }
+  }
 }

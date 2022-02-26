@@ -2,7 +2,7 @@ import './ReceiveChallengeModal.scss';
 import React, { memo } from 'react';
 import Modal from 'antd/lib/modal/Modal';
 import ButtonAnt from '../../../components/ButtonAnt/ButtonAnt';
-import { userType } from '../../LoginPage/login.type';
+import { loginStateType, userType } from '../../LoginPage/login.type';
 import UserInfoInRoomButton from '../RoomButton/UserInfoInRoomButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
@@ -22,6 +22,7 @@ const ReceiveChallengeModal: React.FC<PT> = ({ challenger, challengeTo, visible,
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { socket } = useSelector<RootState, gameStateType>((state) => state.gameReducer);
+  const { userID } = useSelector<RootState, loginStateType>((state) => state.loginReducer);
 
   return (
     <div className="receive-challenge-modal-container">
@@ -54,8 +55,10 @@ const ReceiveChallengeModal: React.FC<PT> = ({ challenger, challengeTo, visible,
               <ButtonAnt
                 title="accept"
                 onClick={() => {
-                  socket.emit('accept-challenge', challenger.challengerSocketID, socket.id, challenger.user.id);
+                  socket.emit('accept-challenge', challenger.challengerSocketID, socket.id, challenger.user.id, userID);
                   dispatch(gameAction.setOpponentID(challenger.user.id));
+                  dispatch(gameAction.setYouMoveFirst(true));
+                  dispatch(gameAction.setPlayingRoomID(userID));
                   navigate(`/mode/online-game/${challenger.challengerSocketID}`);
                 }}
               />

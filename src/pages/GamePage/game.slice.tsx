@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Socket } from 'socket.io-client';
 import { userType } from '../LoginPage/login.type';
 import { getUserInfoAPI } from './game.services';
 import { gameStateType } from './game.type';
@@ -7,6 +6,8 @@ import { gameStateType } from './game.type';
 const initialState: gameStateType = {
   socket: null,
   opponentID: '',
+  isYouMoveFirst: false,
+  playingRoomID: '',
 };
 
 export const gameSlice = createSlice({
@@ -18,6 +19,12 @@ export const gameSlice = createSlice({
     },
     setOpponentID: (state, action: PayloadAction<string>) => {
       state.opponentID = action.payload;
+    },
+    setYouMoveFirst: (state, action: PayloadAction<boolean>) => {
+      state.isYouMoveFirst = action.payload;
+    },
+    setPlayingRoomID: (state, action: PayloadAction<string>) => {
+      state.playingRoomID = action.payload;
     },
   },
 });

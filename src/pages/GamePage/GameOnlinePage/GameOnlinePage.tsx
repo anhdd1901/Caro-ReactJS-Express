@@ -9,12 +9,13 @@ import OnlinePageFooter from '../OnlinePageFooter/OnlinePageFooter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import { gameStateType } from '../game.type';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { loginStateType, userType } from '../../LoginPage/login.type';
 import { useAppDispatch } from '../../../hook';
 import { getUserInfo } from '../game.slice';
 import { ErrorMessage } from '../../../components/Message';
 import UserInfoInRoomButton from '../../OnlineRoomPage/RoomButton/UserInfoInRoomButton';
+import OpponentAnnounceModal from '../../../components/OpponentAnnounceModal/OpponentAnnounceModal';
 
 const tableSize = Number(process.env.REACT_APP_TABLE_SIZE);
 
@@ -23,10 +24,18 @@ interface PT {}
 const GameOnlinePage: React.FC<PT> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { opponentID, socket } = useSelector<RootState, gameStateType>((state) => state.gameReducer);
+  const params = useParams();
+  const { opponentID, socket, isYouMoveFirst, playingRoomID } = useSelector<RootState, gameStateType>(
+    (state) => state.gameReducer
+  );
   const { userID } = useSelector<RootState, loginStateType>((state) => state.loginReducer);
+  const [yourSymbol, setYourSymbol] = useState<string>('');
+  const [yourWin, setyourWin] = useState<number>(0);
+  const [yourOpponentWin, setYourOpponentWin] = useState<number>(0);
+  const [yourOpponentQuit, setYourOpponentQuit] = useState<string>('');
+  const [isOpponentQuitAnnouncementOpen, setOpponentQuitAnnouncementOpen] = useState<boolean>(false);
   const size = (window.innerHeight - 48 - 48 - 40 - 50 - 20) / tableSize;
-  const [isTurnX, setTurn] = useState<boolean>(true);
+  const [isYourTurn, setYourTurn] = useState<boolean>(false);
   const [justMovedCell, setJustMovedCell] = useState<number[] | null>(null);
   const [isGameOver, setGameOver] = useState<boolean>(false);
   const [winRow, setWinRow] = useState<number[][]>([]);
@@ -36,98 +45,102 @@ const GameOnlinePage: React.FC<PT> = () => {
     Array.from({ length: tableSize }, () => Array.from({ length: tableSize }, () => ''))
   );
 
-  // Get opponent info
+  // Init setup
   useEffect(() => {
-    if (opponentID === '') navigate('/mode/online-game');
-    else {
-      const getUserInfoSuccess = (user?: userType, errorMess?: string) => {
-        if (user) setOpponent(user);
-        else if (errorMess) {
-          socket.emit('leave-online-mode');
-          navigate('/mode/online-game');
-          ErrorMessage(errorMess);
-        }
-      };
-      const getUserInfoError = () => {
-        socket.emit('leave-online-mode');
-        navigate('/mode/online-game');
-        ErrorMessage('Failed: get user info');
-      };
-      dispatch(getUserInfo(opponentID, getUserInfoSuccess, getUserInfoError));
+    if (isYouMoveFirst) {
+      setYourTurn(true);
+      setYourSymbol('x');
+    } else {
+      setYourTurn(false);
+      setYourSymbol('o');
     }
+  }, [isYouMoveFirst]);
+
+  // Socket event
+  useEffect(() => {
+    if (socket) {
+      socket.on('delete-room', (result: any) => {
+        setYourOpponentQuit(result.idRoom);
+      });
+
+      socket.on('opponent-move', (rowIndex: any, colIndex: any, currentGameArray: any) => {
+        setJustMovedCell([rowIndex, colIndex]);
+        setGameArray(currentGameArray);
+        setYourTurn(true);
+      });
+
+      socket.on('opponent-win', (rowIndex: any, colIndex: any, currentGameArray: any, totalWinStraight: any) => {
+        setJustMovedCell([rowIndex, colIndex]);
+        setGameArray(currentGameArray);
+        setWinRow(totalWinStraight);
+        setGameOver(true);
+      });
+
+      socket.on('you-win', (totalWinStraight: any) => {
+        setWinRow(totalWinStraight);
+        setGameOver(true);
+      });
+
+      socket.on('error-mess', (errorMess: any) => {
+        ErrorMessage(errorMess);
+      });
+    }
+  }, [socket]);
+
+  // Opponent quit
+  useEffect(() => {
+    if (!isOpponentQuitAnnouncementOpen && opponent && yourOpponentQuit !== '' && yourOpponentQuit === opponent.id) {
+      setOpponentQuitAnnouncementOpen(true);
+    }
+  }, [yourOpponentQuit]);
+
+  const getUserInfoError = () => {
+    socket.emit('leave-online-mode');
+    navigate('/mode');
+    ErrorMessage('Failed: get user info');
+  };
+
+  // Get opponent info
+  const getOpponentInfoSuccess = (user?: userType, errorMess?: string) => {
+    if (user) setOpponent(user);
+    else if (errorMess) {
+      socket.emit('leave-online-mode');
+      navigate('/mode');
+      ErrorMessage(errorMess);
+    }
+  };
+
+  useEffect(() => {
+    if (opponentID === '') navigate('/mode');
+    else dispatch(getUserInfo(opponentID, getOpponentInfoSuccess, getUserInfoError));
   }, [opponentID]);
 
   // Get your info
-  useEffect(() => {
-    if (userID !== '') {
-      const getUserInfoSuccess = (user?: userType, errorMess?: string) => {
-        if (user) setUserInfo(user);
-        else if (errorMess) {
-          socket.emit('leave-online-mode');
-          navigate('/mode/online-game');
-          ErrorMessage(errorMess);
-        }
-      };
-      const getUserInfoError = () => {
-        socket.emit('leave-online-mode');
-        navigate('/mode/online-game');
-        ErrorMessage('Failed: get user info');
-      };
-      dispatch(getUserInfo(userID, getUserInfoSuccess, getUserInfoError));
+  const getUserInfoSuccess = (user?: userType, errorMess?: string) => {
+    if (user) setUserInfo(user);
+    else if (errorMess) {
+      socket.emit('leave-online-mode');
+      navigate('/mode');
+      ErrorMessage(errorMess);
     }
+  };
+
+  useEffect(() => {
+    if (userID !== '') dispatch(getUserInfo(userID, getUserInfoSuccess, getUserInfoError));
   }, [userID]);
 
   const onMove = (rowIndex: number, colIndex: number, isTurnX: boolean) => {
-    if (!gameArray[rowIndex][colIndex] && !isGameOver) {
-      const currentGameArray = [...gameArray];
-      const currentTurn = isTurnX ? 'x' : 'o';
-      currentGameArray[rowIndex][colIndex] = currentTurn;
-
+    if (!gameArray[rowIndex][colIndex] && !isGameOver && isYourTurn) {
+      setYourTurn(false);
       setJustMovedCell([rowIndex, colIndex]);
-      checkWin(rowIndex, colIndex, currentGameArray, currentTurn);
+      const currentGameArray = [...gameArray];
+      currentGameArray[rowIndex][colIndex] = yourSymbol;
       setGameArray(currentGameArray);
-      setTurn(!isTurnX);
+
+      socket.emit('on-move', params.socketID, playingRoomID, rowIndex, colIndex, yourSymbol);
     }
   };
 
-  const checkWin = (rowIndex: number, colIndex: number, currentGameArray: string[][], currentTurn: string) => {
-    let totalWinStraight: number[][] = [];
-    let gameOver = false;
-
-    KINDS_OF_WIN_CHECKER.forEach((kindOfWinChecker) => {
-      let winStraight: number[][] = [[rowIndex, colIndex]];
-
-      kindOfWinChecker.forEach((checkFlow) => {
-        let movingRowIndex = rowIndex;
-        let movingColIndex = colIndex;
-
-        while (
-          movingRowIndex + checkFlow[0] >= 0 &&
-          movingColIndex + checkFlow[1] >= 0 &&
-          movingRowIndex + checkFlow[0] < tableSize &&
-          movingColIndex + checkFlow[1] < tableSize
-        ) {
-          movingRowIndex += checkFlow[0];
-          movingColIndex += checkFlow[1];
-          if (currentGameArray[movingRowIndex][movingColIndex] === currentTurn) {
-            winStraight = [...winStraight, [movingRowIndex, movingColIndex]];
-          } else break;
-        }
-      });
-
-      if (winStraight.length >= 5) {
-        gameOver = true;
-        totalWinStraight = [...totalWinStraight, ...winStraight];
-      }
-    });
-
-    if (gameOver) {
-      setGameOver(true);
-      setWinRow(totalWinStraight);
-    }
-  };
-
-  // console.log(userInfo, opponent);
   return (
     <div className="background-container game-container">
       <Modal
@@ -143,26 +156,50 @@ const GameOnlinePage: React.FC<PT> = () => {
               <div className="display-name">{userInfo?.displayName}</div>
             </div>
           }
+          mid={
+            <div className="score-board">
+              <div className="score">{yourWin}</div>
+              <div>vs</div>
+              <div className="score">{yourOpponentWin}</div>
+            </div>
+          }
           tail={
             <div className="receive-challenge-modal-main-challenge">
               <div className="display-name">{opponent?.displayName}</div>
               <UserInfoInRoomButton player={2} playerOne={opponent} notNeedName={true} />
             </div>
           }
-          mid={<div>vs</div>}
         />
 
         <Table
           size={size}
           onClick={onMove}
           value={gameArray}
-          turn={isTurnX}
+          turn={isYourTurn}
           justMovedCell={justMovedCell}
           winRow={winRow}
         />
 
         <OnlinePageFooter opponent={opponent} />
       </Modal>
+      <OpponentAnnounceModal
+        opponent={opponent}
+        visible={isOpponentQuitAnnouncementOpen}
+        setVisible={setOpponentQuitAnnouncementOpen}
+        message={
+          <div>
+            <div>
+              congratulation on <span style={{ color: '26A69A' }}>your winning</span>!!!
+            </div>
+            <div>see you next time</div>
+          </div>
+        }
+        oneButton={true}
+        onClick={() => {
+          navigate('/mode/online-game');
+          socket.emit('leave-online-mode');
+        }}
+      />
     </div>
   );
 };
