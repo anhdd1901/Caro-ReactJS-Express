@@ -1,5 +1,5 @@
 import './Annoucements.scss';
-import React, { memo, useEffect } from 'react';
+import React, { memo, ReactNode, useEffect } from 'react';
 import Modal from 'antd/lib/modal/Modal';
 import UserInfoInRoomButton from '../RoomButton/UserInfoInRoomButton';
 import { userType } from '../../LoginPage/login.type';
@@ -8,10 +8,10 @@ interface PT {
   challenger: userType;
   visible: boolean;
   setVisible: (bool: boolean) => void;
-  isRefuse?: boolean;
+  text: ReactNode;
 }
 
-const Annoucements: React.FC<PT> = ({ challenger, visible, setVisible, isRefuse }) => {
+const Annoucements: React.FC<PT> = ({ challenger, visible, setVisible, text }) => {
   setTimeout(() => {
     if (visible) setVisible(false);
   }, 2000);
@@ -26,7 +26,7 @@ const Annoucements: React.FC<PT> = ({ challenger, visible, setVisible, isRefuse 
       <div className="receive-challenge-modal-main">
         <div className="receive-challenge-modal-main-challenge">
           <UserInfoInRoomButton player={1} playerOne={challenger} notNeedName={true} />
-          {challenger.displayName}.<span>{isRefuse ? 'refused your challenge' : 'declined'} !!!</span>
+          {text}
         </div>
       </div>
     </Modal>

@@ -1,0 +1,15 @@
+.online-game-container-modal {
+  .online-game-win-background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url('../../../../../public/assets/loading/bravo.gif');
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+
+  .disabled-background {
+    display: none;
+  }
+}

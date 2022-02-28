@@ -137,7 +137,11 @@ const OnlineRoomPage: React.FC<PT> = ({
           challenger={challengeTo.user}
           visible={visibleAnnouceRefuse}
           setVisible={setVisibleAnnouceRefuse}
-          isRefuse
+          text={
+            <>
+              {challengeTo.user.displayName}.<span>refused your challenge !!!</span>
+            </>
+          }
         />
       )}
       {challenger && (
@@ -145,6 +149,11 @@ const OnlineRoomPage: React.FC<PT> = ({
           challenger={challenger.user}
           visible={visibleAnnouceDecline}
           setVisible={setVisibleAnnouceDecline}
+          text={
+            <>
+              {challenger.user.displayName}.<span>declined !!!</span>
+            </>
+          }
         />
       )}
     </div>

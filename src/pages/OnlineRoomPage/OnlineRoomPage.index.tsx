@@ -32,6 +32,9 @@ const OnlineRoomPage = () => {
   const [visibleAnnouceDecline, setVisibleAnnouceDecline] = useState<boolean>(false);
   const [challengerJoinedRoom, setChallengerJoinedRoom] = useState<string>('');
   const [changedRoom, setChangedRoom] = useState<string>('');
+  const [updatePlayingRoom, setUpdatePlayingRoom] = useState<{ playingRoomID: string; currentTurn: string } | null>(
+    null
+  );
   const { username, userID } = useSelector<RootState, loginStateType>((state) => state.loginReducer);
   const { socket } = useSelector<RootState, gameStateType>((state) => state.gameReducer);
 
@@ -90,8 +93,33 @@ const OnlineRoomPage = () => {
           setChangedRoom(roomSocketID);
         }
       });
+
+      // Update playing room
+      socket.on('update-playing-room', (playingRoomID: any, currentTurn: any) => {
+        setUpdatePlayingRoom({ playingRoomID: playingRoomID, currentTurn: currentTurn });
+      });
     }
   }, [socket]);
+
+  // Update playing room
+  useEffect(() => {
+    if (updatePlayingRoom) {
+      const currentRooms = [...allOnlineRooms];
+      const newRooms = currentRooms.map((a) => {
+        if (a.id === updatePlayingRoom.playingRoomID) {
+          if (updatePlayingRoom.currentTurn === 'x') {
+            console.log(updatePlayingRoom);
+            return { ...a, playerOne: { ...a.playerOne, currentWon: a.playerOne.currentWon + 1 } };
+          } else if (a.playerTwo)
+            return { ...a, playerTwo: { ...a.playerTwo, currentWon: a.playerTwo.currentWon + 1 } };
+          else return a;
+        } else return a;
+      });
+      console.log(newRooms);
+      setAllOnlineRooms(newRooms);
+      setUpdatePlayingRoom(null);
+    }
+  }, [updatePlayingRoom, allOnlineRooms]);
 
   // User join room => Change room status
   useEffect(() => {

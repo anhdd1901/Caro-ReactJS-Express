@@ -11,10 +11,23 @@ interface PT {
   setVisible: (bool: boolean) => void;
   message: ReactNode;
   onClick: () => void;
+  onSecondButtonClick?: () => void;
   oneButton?: boolean;
+  buttonOneText?: ReactNode;
+  buttonTwoText?: ReactNode;
 }
 
-const OpponentAnnounceModal: React.FC<PT> = ({ opponent, visible, setVisible, message, onClick, oneButton }) => {
+const OpponentAnnounceModal: React.FC<PT> = ({
+  opponent,
+  visible,
+  setVisible,
+  message,
+  onClick,
+  onSecondButtonClick,
+  oneButton,
+  buttonOneText,
+  buttonTwoText,
+}) => {
   return (
     <div className="receive-challenge-modal-container">
       <Modal
@@ -32,13 +45,17 @@ const OpponentAnnounceModal: React.FC<PT> = ({ opponent, visible, setVisible, me
           </div>
 
           <div className="receive-challenge-modal-main-buttons">
-            <ButtonAnt title="quit" onClick={onClick} />
+            <ButtonAnt title={buttonOneText ? buttonOneText : 'quit'} onClick={onClick} />
             {!oneButton && (
               <ButtonAnt
-                title="cancel"
-                onClick={() => {
-                  setVisible(false);
-                }}
+                title={buttonTwoText ? buttonTwoText : 'cancel'}
+                onClick={
+                  onSecondButtonClick
+                    ? onSecondButtonClick
+                    : () => {
+                        setVisible(false);
+                      }
+                }
               />
             )}
           </div>
