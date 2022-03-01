@@ -1,11 +1,6 @@
-import './GameOnlinePage.scss';
-
+import './GameOnlinePage.style.scss';
+import View from './GameOnlinePage.view';
 import React, { memo, useEffect, useState } from 'react';
-import Modal from 'antd/lib/modal/Modal';
-import Header from '../../../components/Header/Header';
-import Table from '../../../components/Table/Table';
-import { KINDS_OF_WIN_CHECKER } from '../../../config';
-import OnlinePageFooter from './OnlinePageFooter/OnlinePageFooter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import { gameStateType } from '../game.type';
@@ -14,9 +9,6 @@ import { loginStateType, userType } from '../../LoginPage/login.type';
 import { useAppDispatch } from '../../../hook';
 import { getUserInfo } from '../game.slice';
 import { ErrorMessage } from '../../../components/Message';
-import UserInfoInRoomButton from '../../OnlineRoomPage/RoomButton/UserInfoInRoomButton';
-import OpponentAnnounceModal from '../../../components/OpponentAnnounceModal/OpponentAnnounceModal';
-import WinningBackground from './WinningBackground/WinningBackground';
 
 const tableSize = Number(process.env.REACT_APP_TABLE_SIZE);
 
@@ -39,7 +31,6 @@ const GameOnlinePage: React.FC<PT> = () => {
   const [opponentWannaOneMore, setOpponentWannaOneMore] = useState<string>('');
   const [youWannaOneMore, setYouWannaOneMore] = useState<string>('');
   const [waitingOpponentResponseModal, setWaitingOpponentResponseModal] = useState<boolean>(false);
-  const size = (window.innerHeight - 48 - 48 - 40 - 50 - 20) / tableSize;
   const [isYourTurn, setYourTurn] = useState<boolean>(false);
   const [justMovedCell, setJustMovedCell] = useState<number[] | null>(null);
   const [isGameOver, setGameOver] = useState<boolean>(false);
@@ -204,120 +195,25 @@ const GameOnlinePage: React.FC<PT> = () => {
   };
 
   return (
-    <div className="background-container game-container">
-      <Modal
-        footer={null}
-        visible={true}
-        closable={false}
-        className="login-modal game-container-modal online-game-container-modal"
-      >
-        <Header
-          title={
-            <div className="receive-challenge-modal-main-challenge">
-              <UserInfoInRoomButton player={1} playerOne={userInfo} notNeedName={true} />
-              <div className="display-name">{userInfo?.displayName}</div>
-            </div>
-          }
-          mid={
-            <div className="score-board">
-              <div className="score">{score.you}</div>
-              <div>vs</div>
-              <div className="score">{score.opp}</div>
-            </div>
-          }
-          tail={
-            <div className="receive-challenge-modal-main-challenge">
-              <div className="display-name">{opponent?.displayName}</div>
-              <UserInfoInRoomButton player={2} playerOne={opponent} notNeedName={true} />
-            </div>
-          }
-        />
-
-        <Table
-          size={size}
-          onClick={onMove}
-          value={gameArray}
-          turn={isYourTurn}
-          justMovedCell={justMovedCell}
-          winRow={winRow}
-        />
-
-        <OnlinePageFooter opponent={opponent} />
-        <WinningBackground disabled={!isWinningBackgroundOn} />
-      </Modal>
-      {/* Annouce your opponent quit */}
-      <OpponentAnnounceModal
-        opponent={opponent}
-        visible={isOpponentQuitAnnouncementOpen}
-        setVisible={setOpponentQuitAnnouncementOpen}
-        message={
-          <div>
-            <div>
-              <span style={{ color: '26A69A' }}>i gotta go </span>!!!
-            </div>
-            <div>see you next time</div>
-          </div>
-        }
-        oneButton={true}
-        onClick={() => {
-          navigate('/mode/online-game');
-          socket.emit('leave-online-mode');
-        }}
-      />
-      {/* Ask one more game */}
-      <OpponentAnnounceModal
-        opponent={opponent}
-        visible={isOneMoreAnnoucementOn}
-        setVisible={setOneMoreAnnoucementOn}
-        message={
-          <div>
-            <div>
-              {isYouWin ? (
-                <>
-                  congratulation on <span style={{ color: '26A69A' }}>your winning</span>!!!
-                </>
-              ) : (
-                <>
-                  good game. <span style={{ color: '26A69A' }}>you are not bad</span>!!!
-                </>
-              )}
-            </div>
-            <div>try again???</div>
-          </div>
-        }
-        oneButton={false}
-        buttonOneText="yeah !!!"
-        onClick={() => {
-          setYouWannaOneMore('agree');
-          setOneMoreAnnoucementOn(false);
-          if (!waitingOpponentResponseModal) setWaitingOpponentResponseModal(true);
-          socket.emit('agree-one-more', params.socketID);
-        }}
-        onSecondButtonClick={() => {
-          navigate('/mode/online-game');
-          socket.emit('leave-online-mode');
-        }}
-      />
-      {/* Waiting your opponent responding your one-more request */}
-      <OpponentAnnounceModal
-        opponent={opponent}
-        visible={waitingOpponentResponseModal}
-        setVisible={setWaitingOpponentResponseModal}
-        message={
-          <div>
-            <div>
-              waiting your opponent <span style={{ color: '26A69A' }}>responding</span>!!!
-            </div>
-          </div>
-        }
-        oneButton={true}
-        buttonOneText="quit"
-        onClick={() => {
-          navigate('/mode/online-game');
-          socket.emit('leave-online-mode');
-        }}
-      />
-    </div>
+    <View
+      userInfo={userInfo}
+      opponent={opponent}
+      score={score}
+      onMove={onMove}
+      gameArray={gameArray}
+      isYourTurn={isYourTurn}
+      justMovedCell={justMovedCell}
+      winRow={winRow}
+      isWinningBackgroundOn={isWinningBackgroundOn}
+      isOpponentQuitAnnouncementOpen={isOpponentQuitAnnouncementOpen}
+      setOpponentQuitAnnouncementOpen={setOpponentQuitAnnouncementOpen}
+      isYouWin={isYouWin}
+      isOneMoreAnnoucementOn={isOneMoreAnnoucementOn}
+      setOneMoreAnnoucementOn={setOneMoreAnnoucementOn}
+      setYouWannaOneMore={setYouWannaOneMore}
+      waitingOpponentResponseModal={waitingOpponentResponseModal}
+      setWaitingOpponentResponseModal={setWaitingOpponentResponseModal}
+    />
   );
 };
 

@@ -2,7 +2,6 @@ import './App.scss';
 import LoginPage from './pages/LoginPage/LoginPage.index';
 import ModePage from './pages/ModePage/ModePage';
 import SignUpPage from './pages/SignUp/SignUpPage.index';
-import GamePage from './pages/GamePage/GamePage';
 
 import React, { memo, useEffect } from 'react';
 import 'antd/dist/antd.css';
@@ -15,7 +14,8 @@ import { ErrorMessage } from './components/Message';
 import { useConnectSocket } from './useConnectSocket/useConnectSocket';
 import { Socket } from 'socket.io-client';
 import { gameAction } from './pages/GamePage/game.slice';
-import GameOnlinePage from './pages/GamePage/GameOnlinePage/GameOnlinePage';
+import GameOnlinePage from './pages/GamePage/GameOnlinePage/GameOnlinePage.index';
+import GamePage from './pages/GamePage/GameOfflinePage/GamePage';
 
 const token = localStorage.getItem('token')
   ? localStorage.getItem('token')

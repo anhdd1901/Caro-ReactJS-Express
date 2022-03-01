@@ -1,11 +1,10 @@
 import './GamePage.scss';
-
 import React, { memo, useState } from 'react';
 import Modal from 'antd/lib/modal/Modal';
-import Table from '../../components/Table/Table';
-import Header from '../../components/Header/Header';
-import { KINDS_OF_WIN_CHECKER } from '../../config';
-import Footer from './Footer/Footer';
+import { KINDS_OF_WIN_CHECKER } from '../../../config';
+import Header from '../../../components/Header/Header';
+import Table from '../../../components/Table/Table';
+import Footer from '../Footer/Footer';
 
 const tableSize = Number(process.env.REACT_APP_TABLE_SIZE);
 
