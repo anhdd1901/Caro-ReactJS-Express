@@ -15,7 +15,9 @@ const UserInfoInRoomButton: React.FC<PT> = ({ playerOne, style, player, notNeedN
     <div className={`button-with-image-img-user-info ${style ? style : ''}`}>
       <div className="button-with-image-img-avatar">
         <img
-          src={playerOne ? playerOne.avatar : '/assets/loading/user.gif'}
+          src={
+            playerOne ? (playerOne.avatar !== '' ? playerOne.avatar : '/assets/user.png') : '/assets/loading/user.gif'
+          }
           alt={`${playerOne ? playerOne.displayName : 'waiting'} ava`}
         />
         <div className={`medal-rank medal-rank-${player}`}>
