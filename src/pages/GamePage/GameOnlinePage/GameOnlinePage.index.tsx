@@ -60,7 +60,7 @@ const GameOnlinePage: React.FC<PT> = () => {
       setTimeout(() => {
         setWinningBackgroundOn(false);
         setOneMoreAnnoucementOn(true);
-      }, 800);
+      }, 4000);
     }
   }, [isWinningBackgroundOn]);
 
